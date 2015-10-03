@@ -47,5 +47,6 @@ int main(int argc, char argv[]){
 	else{
 		printf("Created table: SuppsToParts lookup table\n");
 	}
-	
+	exec sql commit release;
+	exit(0);	
 }

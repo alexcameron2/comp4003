@@ -7,7 +7,7 @@ exec sql begin declare section;
 	char *MYID = "fedora/oracle11g";
 exec sql end declare section;
 
-int main(int argc, char argv[]){
+int main(){
 	//connect sql
 	exec sql connect :MYID;
 	if (sqlca.slqcode < 0 ){
