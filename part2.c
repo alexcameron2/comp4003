@@ -15,13 +15,13 @@ void catchOracleError();
 
 int main(){
 	exec sql connect :identity;
-	if (sqlca.sqlcode < 0){
-		printf("Could not connect to oracle!\n");
-		exit(1);
-	}
-	else{
+//	if (sqlca.sqlcode < 0){
+//		printf("Could not connect to oracle!\n");
+//		exit(1);
+//	}
+//	else{
 		printf("Connected to Oracle\n");
-	}
+//	}
 	
 exit(1);	 
 }
