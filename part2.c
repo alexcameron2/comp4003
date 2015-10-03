@@ -13,7 +13,23 @@ exec sql end declare section;
 
 void catchOracleError();
 
+
+void AddToSuppliers(){
+	char userInput[100];
+	
+}
+
+void AddToParts(){
+	char userInput[100];
+}
+
+void AddToLookup(){
+	char userInuput[100];
+}
+
+
 int main(){
+	char userInput[100];
 	exec sql connect :identity;
 	if (sqlca.sqlcode < 0){
 		printf("Could not connect to oracle!\n");
@@ -24,43 +40,29 @@ int main(){
 	}
 
 	exec sql set transaction read write;
-	//Creat Tables
+	while (1){
+		printf("ADDING TABLE ENTRIES!!\n\nEnter table name to add to (or 'quit'):");
+		printf(" ");;
+		fgets(userInput, 100, stdin);
 
-	//Create the Suppliers table
-	strcpy(statement,"CREATE TABLE Suppliers (supp_id varchar2(2) primary key, spp_name varchar2(10), status int, supp_city varchar(10))");
-	
-	exec sql execute immediate :statement;
-	if (sqlca.sqlcode < 0){
-		printf("Could not create Suppliers table\n");
-		exit(1);
+		printf("\nValue entered was -%s-...\n", userInput);
+	 	
+		//If the user enters 'quit' then quit the program and commit changes
+		if (strcmp(userInput, "quit") == 0)
+			printf("Quitting\n");
+			break;
+		)
+		
+		if ( strcmp(userInput, "Suppliers") == 0){
+			AddToSuppliers();
+		}
+		else if ( strcmp(userInput, "Parts") == 0){
+			AddToParts();
+		}
+		else if ( strcmp(userInput, "SuppToPart") == 0){
+			AddToLookup();
+		}
 	}
-	else{
-		printf("Created Suppliers table!\n");
-	}
-
-	//Create the Parts table
-	strcpy(statement,"CREATE TABLE Parts (part_id varchar2(2) primary key, part_name varchar2(8), part_color varchar2(8), weight float, part_city varchar(10))");
-	
-	exec sql execute immediate :statement;
-	if (sqlca.sqlcode < 0){
-		printf("Could not create Parts table\n");
-		exit(1);
-	}
-	else{
-		printf("Created Parts table!\n");
-	}
-
-	//Create the SuppToPart lookup table
-	strcpy(statement,"CREATE TABLE SuppToPart (supp_id varchar2(2), part_id varchar2(2), quantity int, constraint PK_D primary key (supp_id, part_id))");
-	
-	exec sql execute immediate :statement;
-	if (sqlca.sqlcode < 0){
-		printf("Could not create SuppToPart lookup table\n");
-		exit(1);
-	}
-	else{
-		printf("Created SuppToPart table!\n");
-	}
-
-exit(1);	 
+exec sql commit release;
+exit(0);	 
 }
