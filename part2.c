@@ -19,9 +19,9 @@ void AddToSuppliers(){
 	char *input;
 	
 	while(1){
-		printf("Enter a supplier in the form:\n ID name status city.");
+		printf("Enter a supplier in the form:  ID name status city\n.: ");
 		fgets(userInput, 1024, stdin);
-		printf("Attemping to create Supplier: -%s-\n", userInput);
+		printf("Attemping to create Supplier: -%s\n", userInput);
 		
 		if( strcmp(userInput, "quit") == 0){
 			printf("Quitting\n");
@@ -30,7 +30,7 @@ void AddToSuppliers(){
 		char *supplierID = strtok(userInput, " \n");
 printf("Extracted ID: --%s--\n", supplierID);
 		char *supplierName = strtok(NULL, " \n");
-printf("Extracted Name: --%s--\n");
+printf("Extracted Name: --%s--\n", supplierName);
 		int status = atoi(strtok(NULL, " \n"));
 printf("Extracted status: --%d--\n", status);
 		char *city = strtok(NULL, " \n");
@@ -54,13 +54,13 @@ printf("Extracted city: --%s--\n", city);
 }
 
 void AddToParts(){
-/*	char userInput[1024];
+	char userInput[1024];
 	char *input;
 	
 	while(1){
-		printf("Enter a part in the form:\n ID name colour weight city.");
+		printf("Enter a part in the form: ID name colour weight city\n.:");
 		fgets(userInput, 1024, stdin);
-		printf("Attemping to create Part: -%s-\n", userInput);
+		printf("Attemping to create Part: -%s\n", userInput);
 		
 		if( strcmp(userInput, "quit") == 0){
 			printf("Quitting\n");
@@ -91,11 +91,11 @@ printf("Extracted city: --%s--\n", city);
 		else {
 			printf("Insertion completed\n");
 		}
-	}*/
+	}
 }
 
 void AddToLookup(){
-	/*char userInput[1024];
+	char userInput[1024];
 	char *input;
 	
 	while(1){
@@ -108,11 +108,11 @@ void AddToLookup(){
 			break;
 		}
 		char *supplierID = strtok(userInput, " \n");
-printf("Extracted ID: --%s--\n", supplierID);
+printf("user input ID: --%s--\n", supplierID);
 		char *partID = strtok(NULL, " \n");
-printf("Extracted part ID: --%s--\n");
-		int status = atoi(strtok(NULL, " \n"));
-printf("Extracted quantity: --%d--\n", status);
+printf("user input part ID: --%s--\n");
+		int quantity = atoi(strtok(NULL, " \n"));
+printf("user input quantity: --%d--\n", quantity);
 		
 		strcpy(statement, "INSERT INTO SuppToPart VALUES (:v1, :v2, :v3)");
 		exec sql prepare s from :statement;
@@ -121,14 +121,14 @@ printf("Extracted quantity: --%d--\n", status);
 			break;
 		}
 		
-		exec sql execute s using :supplierID, :partID, :status;
+		exec sql execute s using :supplierID, :partID, :quantity;
 		if (sqlca.sqlcode < 0){
 			printf("Insert not complete!\n");
 		}
 		else {
 			printf("Insertion completed\n");
 		}
-	}*/
+	}
 }
 
 
@@ -154,10 +154,10 @@ int main(){
 		printf("\nValue entered was -%s-...\n", userInput);
 	 	
 		//If the user enters 'quit' then quit the program and commit changes
-		if (strcmp(userInput, "quit") == 0)
+		if (strcmp(userInput, "quit") == 0){
 			printf("Quitting\n");
 			break;
-		)
+		}
 		
 		if ( strcmp(userInput, "Suppliers") == 0){
 			AddToSuppliers();
