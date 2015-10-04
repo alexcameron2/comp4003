@@ -28,13 +28,13 @@ void AddToSuppliers(){
 			break;
 		}
 		char *supplierID = strtok(userInput, " \n");
-printf("Extracted ID: %s\n", supplierID);
+printf("Extracted ID: --%s--\n", supplierID);
 		char *supplierName = strtok(NULL, " \n");
-printf("Extracted Name: %s\n");
+printf("Extracted Name: --%s--\n");
 		int status = atoi(strtok(NULL, " \n"));
-printf("Extracted status: %d\n", status);
+printf("Extracted status: --%d--\n", status);
 		char *city = strtok(NULL, " \n");
-printf("Extracted city: %s\n", city);
+printf("Extracted city: --%s--\n", city);
 		
 		strcpy(statement, "INSERT INTO Suppliers VALUES (:v1, :v2, :v3, :v4)");
 		exec sql prepare s from :statement;
@@ -67,15 +67,15 @@ void AddToParts(){
 			break;
 		}
 		char *partID = strtok(userInput, " \n");
-printf("Extracted ID: %s\n", partID);
+printf("Extracted ID: --%s--\n", partID);
 		char *partName = strtok(NULL, " \n");
-printf("Extracted Name: %s\n", partName);
+printf("Extracted Name: --%s--\n", partName);
 		char *partColour = strtok(NULL, " \n");
-printf("Extracted Color: %s\n", partColour);
+printf("Extracted Color: --%s--\n", partColour);
 		float weight = atof(strtok(NULL, " \n"));
-printf("Extracted weight: %f\n", weight);
+printf("Extracted weight: --%f--\n", weight);
 		char *city = strtok (NULL, " \n");
-printf("Extracted city: %s\n", city);
+printf("Extracted city: --%s--\n", city);
 		
 		strcpy(statement, "INSERT INTO Parts VALUES (:v1, :v2, :v3, :v4, :v5)");
 		exec sql prepare s from :statement;
@@ -108,11 +108,11 @@ void AddToLookup(){
 			break;
 		}
 		char *supplierID = strtok(userInput, " \n");
-printf("Extracted ID: %s\n", supplierID);
+printf("Extracted ID: --%s--\n", supplierID);
 		char *partID = strtok(NULL, " \n");
-printf("Extracted part ID: %s\n");
+printf("Extracted part ID: --%s--\n");
 		int status = atoi(strtok(NULL, " \n"));
-printf("Extracted quantity: %d\n", status);
+printf("Extracted quantity: --%d--\n", status);
 		
 		strcpy(statement, "INSERT INTO SuppToPart VALUES (:v1, :v2, :v3)");
 		exec sql prepare s from :statement;
@@ -148,6 +148,8 @@ int main(){
 		printf("ADDING TABLE ENTRIES!!\n\nEnter table name to add to (or 'quit'):");
 		printf(" ");;
 		fgets(userInput, 100, stdin);
+		//set the last character to null, instead of a newline character
+		userInput[strlen(userInput) - 1] = 0;
 
 		printf("\nValue entered was -%s-...\n", userInput);
 	 	
