@@ -33,7 +33,7 @@ int main(){
 
 	//Creat Tables
 	//Create the Suppliers table
-	strcpy(statement,"CREATE TABLE Suppliers (supp_id varchar2(2) primary key, spp_name varchar2(10), status int, supp_city varchar(10))");
+	strcpy(statement,"CREATE TABLE Suppliers (supp_id varchar2(2) primary key, supp_name varchar2(10), status int, supp_city varchar(10))");
 	
 	exec sql execute immediate :statement;
 	if (sqlca.sqlcode < 0){
