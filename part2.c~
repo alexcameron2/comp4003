@@ -22,6 +22,8 @@ void AddToSuppliers(){
 		printf("Enter a supplier in the form:  ID name status city\n.: ");
 		fgets(userInput, 1024, stdin);
 		printf("Attemping to create Supplier: -%s\n", userInput);
+		//set the last character to null, instead of a newline character
+		userInput[strlen(userInput) - 1] = 0;
 		
 		if( strcmp(userInput, "quit") == 0){
 			printf("Quitting\n");
