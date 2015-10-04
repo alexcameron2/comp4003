@@ -15,16 +15,120 @@ void catchOracleError();
 
 
 void AddToSuppliers(){
-	char userInput[100];
+	char userInput[1024];
+	char *input;
 	
+	while(1){
+		printf("Enter a supplier in the form:\n ID name status city.");
+		fgets(userInput, 1024, stdin);
+		printf("Attemping to create Supplier: -%s-\n", userInput);
+		
+		if( strcmp(userInput, "quit") == 0){
+			printf("Quitting\n");
+			break;
+		}
+		char *supplierID = strtok(userInput, " \n");
+printf("Extracted ID: %s\n", supplierID);
+		char *supplierName = strtok(NULL, " \n");
+printf("Extracted Name: %s\n");
+		int status = atoi(strtok(NULL, " \n"));
+printf("Extracted status: %d\n", status);
+		char *city = strtok(NULL, " \n");
+printf("Extracted city: %s\n", city);
+		
+		strcpy(statement, "INSERT INTO Suppliers VALUES (:v1, :v2, :v3, :v4)");
+		exec sql prepare s from :statement;
+		if (sqlca.sqlcode < 0){
+			printf("Statement not prepared!\n");
+			break;
+		}
+		
+		exec sql execute s using :supplierID, :supplierName, :status, :city;
+		if (sqlca.sqlcode < 0){
+			printf("Insert not complete!\n");
+		}
+		else {
+			printf("Insertion completed\n");
+		}
+	}	
 }
 
 void AddToParts(){
-	char userInput[100];
+/*	char userInput[1024];
+	char *input;
+	
+	while(1){
+		printf("Enter a part in the form:\n ID name colour weight city.");
+		fgets(userInput, 1024, stdin);
+		printf("Attemping to create Part: -%s-\n", userInput);
+		
+		if( strcmp(userInput, "quit") == 0){
+			printf("Quitting\n");
+			break;
+		}
+		char *partID = strtok(userInput, " \n");
+printf("Extracted ID: %s\n", partID);
+		char *partName = strtok(NULL, " \n");
+printf("Extracted Name: %s\n", partName);
+		char *partColour = strtok(NULL, " \n");
+printf("Extracted Color: %s\n", partColour);
+		float weight = atof(strtok(NULL, " \n"));
+printf("Extracted weight: %f\n", weight);
+		char *city = strtok (NULL, " \n");
+printf("Extracted city: %s\n", city);
+		
+		strcpy(statement, "INSERT INTO Parts VALUES (:v1, :v2, :v3, :v4, :v5)");
+		exec sql prepare s from :statement;
+		if (sqlca.sqlcode < 0){
+			printf("Statement not prepared!\n");
+			break;
+		}
+		
+		exec sql execute s using :partID, :partName, :partColour, :weight, :city;
+		if (sqlca.sqlcode < 0){
+			printf("Insert not complete!\n");
+		}
+		else {
+			printf("Insertion completed\n");
+		}
+	}*/
 }
 
 void AddToLookup(){
-	char userInuput[100];
+	/*char userInput[1024];
+	char *input;
+	
+	while(1){
+		printf("Enter an entry in the form:\n supplierID partID quantity.\n");
+		fgets(userInput, 1024, stdin);
+		printf("Attemping to create Entry from:: -%s-\n", userInput);
+		
+		if( strcmp(userInput, "quit") == 0){
+			printf("Quitting\n");
+			break;
+		}
+		char *supplierID = strtok(userInput, " \n");
+printf("Extracted ID: %s\n", supplierID);
+		char *partID = strtok(NULL, " \n");
+printf("Extracted part ID: %s\n");
+		int status = atoi(strtok(NULL, " \n"));
+printf("Extracted quantity: %d\n", status);
+		
+		strcpy(statement, "INSERT INTO SuppToPart VALUES (:v1, :v2, :v3)");
+		exec sql prepare s from :statement;
+		if (sqlca.sqlcode < 0){
+			printf("Statement not prepared!\n");
+			break;
+		}
+		
+		exec sql execute s using :supplierID, :partID, :status;
+		if (sqlca.sqlcode < 0){
+			printf("Insert not complete!\n");
+		}
+		else {
+			printf("Insertion completed\n");
+		}
+	}*/
 }
 
 

@@ -13,7 +13,127 @@ exec sql end declare section;
 
 void catchOracleError();
 
+
+void AddToSuppliers(){
+	char userInput[1024];
+	char *input;
+	
+	while(1){
+		printf("Enter a supplier in the form:\n ID name status city.");
+		fgets(userInput, 1024, stdin);
+		printf("Attemping to create Supplier: -%s-\n", userInput);
+		
+		if( strcmp(userInput, "quit") == 0){
+			printf("Quitting\n");
+			break;
+		}
+		char *supplierID = strtok(userInput, " \n");
+printf("Extracted ID: %s\n", supplierID);
+		char *supplierName = strtok(NULL, " \n");
+printf("Extracted Name: %s\n");
+		int status = atoi(strtok(NULL, " \n"));
+printf("Extracted status: %d\n", status);
+		char *city = strtok(NULL, " \n");
+printf("Extracted city: %s\n", city);
+		
+		strcpy(statement, "INSERT INTO Suppliers VALUES (:v1, :v2, :v3, :v4)");
+		exec sql prepare s from :statement;
+		if (sqlca.sqlcode < 0){
+			printf("Statement not prepared!\n");
+			break;
+		}
+		
+		exec sql execute s using :supplierID, :supplierName, :status, :city;
+		if (sqlca.sqlcode < 0){
+			printf("Insert not complete!\n");
+		}
+		else {
+			printf("Insertion completed\n");
+		}
+	}	
+}
+
+void AddToParts(){
+/*	char userInput[1024];
+	char *input;
+	
+	while(1){
+		printf("Enter a part in the form:\n ID name colour weight city.");
+		fgets(userInput, 1024, stdin);
+		printf("Attemping to create Part: -%s-\n", userInput);
+		
+		if( strcmp(userInput, "quit") == 0){
+			printf("Quitting\n");
+			break;
+		}
+		char *partID = strtok(userInput, " \n");
+printf("Extracted ID: %s\n", partID);
+		char *partName = strtok(NULL, " \n");
+printf("Extracted Name: %s\n", partName);
+		char *partColour = strtok(NULL, " \n");
+printf("Extracted Color: %s\n", partColour);
+		float weight = atof(strtok(NULL, " \n"));
+printf("Extracted weight: %f\n", weight);
+		char *city = strtok (NULL, " \n");
+printf("Extracted city: %s\n", city);
+		
+		strcpy(statement, "INSERT INTO Parts VALUES (:v1, :v2, :v3, :v4, :v5)");
+		exec sql prepare s from :statement;
+		if (sqlca.sqlcode < 0){
+			printf("Statement not prepared!\n");
+			break;
+		}
+		
+		exec sql execute s using :partID, :partName, :partColour, :weight, :city;
+		if (sqlca.sqlcode < 0){
+			printf("Insert not complete!\n");
+		}
+		else {
+			printf("Insertion completed\n");
+		}
+	}*/
+}
+
+void AddToLookup(){
+	/*char userInput[1024];
+	char *input;
+	
+	while(1){
+		printf("Enter an entry in the form:\n supplierID partID quantity.\n");
+		fgets(userInput, 1024, stdin);
+		printf("Attemping to create Entry from:: -%s-\n", userInput);
+		
+		if( strcmp(userInput, "quit") == 0){
+			printf("Quitting\n");
+			break;
+		}
+		char *supplierID = strtok(userInput, " \n");
+printf("Extracted ID: %s\n", supplierID);
+		char *partID = strtok(NULL, " \n");
+printf("Extracted part ID: %s\n");
+		int status = atoi(strtok(NULL, " \n"));
+printf("Extracted quantity: %d\n", status);
+		
+		strcpy(statement, "INSERT INTO SuppToPart VALUES (:v1, :v2, :v3)");
+		exec sql prepare s from :statement;
+		if (sqlca.sqlcode < 0){
+			printf("Statement not prepared!\n");
+			break;
+		}
+		
+		exec sql execute s using :supplierID, :partID, :status;
+		if (sqlca.sqlcode < 0){
+			printf("Insert not complete!\n");
+		}
+		else {
+			printf("Insertion completed\n");
+		}
+	}*/
+}
+
+
 int main(){
+	char userInput[100];
 	exec sql connect :identity;
 	if (sqlca.sqlcode < 0){
 		printf("Could not connect to oracle!\n");
@@ -24,48 +144,28 @@ int main(){
 	}
 
 	exec sql set transaction read write;
+	while (1){
+		printf("ADDING TABLE ENTRIES!!\n\nEnter table name to add to (or 'quit'):");
+		printf(" ");;
+		fgets(userInput, 100, stdin);
 
-	//Drop tables if they exist..
-	exec sql execute immediate "DROP TABLE Suppliers";
-	exec sql execute immediate "DROP TABLE Parts";
-	exec sql execute immediate "DROP TABLE SuppToPart";
-	
-
-	//Creat Tables
-	//Create the Suppliers table
-	strcpy(statement,"CREATE TABLE Suppliers (supp_id varchar2(2) primary key, spp_name varchar2(10), status int, supp_city varchar(10))");
-	
-	exec sql execute immediate :statement;
-	if (sqlca.sqlcode < 0){
-		printf("Could not create Suppliers table\n");
-		exit(1);
-	}
-	else{
-		printf("Created Suppliers table!\n");
-	}
-
-	//Create the Parts table
-	strcpy(statement,"CREATE TABLE Parts (part_id varchar2(2) primary key, part_name varchar2(8), part_color varchar2(8), weight float, part_city varchar(10))");
-	
-	exec sql execute immediate :statement;
-	if (sqlca.sqlcode < 0){
-		printf("Could not create Parts table\n");
-		exit(1);
-	}
-	else{
-		printf("Created Parts table!\n");
-	}
-
-	//Create the SuppToPart lookup table
-	strcpy(statement,"CREATE TABLE SuppToPart (supp_id varchar2(2), part_id varchar2(2), quantity int, constraint PK_D primary key (supp_id, part_id))");
-	
-	exec sql execute immediate :statement;
-	if (sqlca.sqlcode < 0){
-		printf("Could not create SuppToPart lookup table\n");
-		exit(1);
-	}
-	else{
-		printf("Created SuppToPart table!\n");
+		printf("\nValue entered was -%s-...\n", userInput);
+	 	
+		//If the user enters 'quit' then quit the program and commit changes
+		if (strcmp(userInput, "quit") == 0)
+			printf("Quitting\n");
+			break;
+		)
+		
+		if ( strcmp(userInput, "Suppliers") == 0){
+			AddToSuppliers();
+		}
+		else if ( strcmp(userInput, "Parts") == 0){
+			AddToParts();
+		}
+		else if ( strcmp(userInput, "SuppToPart") == 0){
+			AddToLookup();
+		}
 	}
 exec sql commit release;
 exit(0);	 
